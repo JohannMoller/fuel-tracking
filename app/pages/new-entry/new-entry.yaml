@@ -1,0 +1,103 @@
+id: new-entry
+type: Box
+properties:
+  title: New Entry
+layout:
+  size: 800
+
+requests:
+  - id: insert_entry
+    type: MongoDBInsertOne
+    connectionId: fuel-log
+    payload:
+      new:
+        _state: new
+    properties:
+      doc:
+        _payload: new
+
+events:
+  onInit:
+    - id: init_state
+      type: SetState
+      params:
+        new.date:
+          _date: now
+        new.fuel_type: 'ULP 93'
+
+blocks:
+  - id: card
+    type: Card
+    layout:
+      contentGutter: 8
+    blocks:
+      - id: new.date
+        type: DateSelector
+        properties:
+          title: Date
+      - id: new.fuel_type
+        type: ButtonSelector
+        properties:
+          title: Fuel type
+          options:
+            - ULP 93
+            - ULP 95
+      - id: new.trip
+        type: NumberInput
+        properties:
+          title: Trip [km]
+          postfix: km
+          min: 0
+      - id: new.full_mileage
+        type: NumberInput
+        properties:
+          title: Total mileage [km]
+          postfix: km
+          min: 0
+      - id: new.litres_per_100km
+        type: NumberInput
+        properties:
+          title: Fuel efficiency [L/100km]
+          postfix: L/100km
+          min: 0
+      - id: new.price_per_litre
+        type: NumberInput
+        properties:
+          title: Price [R/L]
+          prefix: R
+          postfix: /L
+          min: 0
+      - id: new.full_price
+        type: NumberInput
+        properties:
+          title: Total price [R]
+          prefix: R
+          min: 0
+      - id: new.litres
+        type: NumberInput
+        properties:
+          title: Litres
+          postfix: L
+          min: 0
+
+      - id: save_button
+        type: Button
+        properties:
+          title: Save
+          block: true
+        events:
+          onClick:
+            - id: get_location
+              type: GeolocationCurrentPosition
+              params:
+                enableHighAccuracy: true
+            - id: set_location
+              type: SetState
+              params:
+                new.location:
+                  _actions: get_location.response.coords
+            - id: insert_entry
+              type: Request
+              params: insert_entry
+            - id: reset
+              type: Reset
