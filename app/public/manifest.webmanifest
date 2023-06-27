@@ -1,0 +1,16 @@
+{
+  "short_name": "Fuel Tracking",
+  "name": "Fuel Tracking App",
+  "description": "Johann Moller se Fuel Tracking App",
+  "icons": [
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#FFFFFF",
+  "display": "minimal-ui",
+  "scope": "/"
+}
