@@ -31,12 +31,24 @@ blocks:
     layout:
       contentGutter: 8
     blocks:
+      - id: title
+        type: Title
+        properties:
+          content: Log an Entry
+          level: 2
       - id: new.date
         type: DateSelector
+        layout:
+          sm:
+            span: 12
         properties:
           title: Date
+          allowClear: false
       - id: new.fuel_type
         type: ButtonSelector
+        layout:
+          sm:
+            span: 12
         properties:
           title: Fuel type
           options:
@@ -44,40 +56,61 @@ blocks:
             - ULP 95
       - id: new.trip
         type: NumberInput
+        layout:
+          sm:
+            span: 12
+        required: true
         properties:
           title: Trip [km]
-          postfix: km
+          placeholder: km
           min: 0
       - id: new.full_mileage
         type: NumberInput
+        layout:
+          sm:
+            span: 12
         properties:
           title: Total mileage [km]
-          postfix: km
+          placeholder: km
           min: 0
       - id: new.litres_per_100km
         type: NumberInput
+        layout:
+          sm:
+            span: 12
         properties:
-          title: Fuel efficiency [L/100km]
-          postfix: L/100km
+          title: Usage
+          placeholder: L/100km
           min: 0
       - id: new.price_per_litre
         type: NumberInput
+        layout:
+          sm:
+            span: 12
+        required: true
         properties:
           title: Price [R/L]
-          prefix: R
-          postfix: /L
+          placeholder: R/L
           min: 0
       - id: new.full_price
         type: NumberInput
+        layout:
+          sm:
+            span: 12
+        required: true
         properties:
           title: Total price [R]
-          prefix: R
+          placeholder: R
           min: 0
       - id: new.litres
         type: NumberInput
+        layout:
+          sm:
+            span: 12
+        required: true
         properties:
           title: Litres
-          postfix: L
+          placeholder: L
           min: 0
 
       - id: save_button
@@ -85,6 +118,7 @@ blocks:
         properties:
           title: Save
           block: true
+          icon: AiOutlineSave
         events:
           onClick:
             - id: get_location
@@ -96,8 +130,12 @@ blocks:
               params:
                 new.location:
                   _actions: get_location.response.coords
+            - id: validate
+              type: Validate
             - id: insert_entry
               type: Request
+              messages:
+                success: Saved! Thank you!⛽️
               params: insert_entry
             - id: reset
               type: Reset
