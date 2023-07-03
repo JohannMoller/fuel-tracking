@@ -1,0 +1,97 @@
+id: edit-entry
+type: PageHeaderMenu
+properties:
+  title: Edit Entry
+layout:
+  size: 800
+
+requests:
+  - id: get_entry
+    type: MongoDBFindOne
+    connectionId: fuel-log
+    payload:
+      entry_id:
+        _url_query: id
+    properties:
+      query:
+        _id:
+          _payload: entry_id
+  - id: update_entry
+    type: MongoDBUpdateOne
+    connectionId: fuel-log
+    payload:
+      entry:
+        _state: entry
+    properties:
+      filter:
+        _id:
+          _payload: entry._id
+      update:
+        $set:
+          _object.assign:
+            - _payload: entry
+            - updated_timestamp:
+                _date: now
+
+events:
+  onMount:
+    - id: get_entry
+      type: Request
+      params: get_entry
+    - id: set_entry
+      type: SetState
+      params:
+        entry:
+          _request: get_entry
+
+blocks:
+  - id: card
+    type: Card
+    layout:
+      contentGutter: 8
+    blocks:
+      - id: title
+        type: Title
+        properties:
+          content: Log an Entry
+          level: 2
+      - _ref: pages/new-entry/components/form_entry.yaml
+
+      - id: back_button
+        type: Button
+        layout:
+          sm:
+            span: 12
+        properties:
+          title: Back
+          block: true
+          icon: AiOutlineLeft
+          type: default
+        events:
+          onClick:
+            - id: link_back
+              type: Link
+              params:
+                back: true
+      - id: save_button
+        type: Button
+        layout:
+          sm:
+            span: 12
+        properties:
+          title: Update
+          block: true
+          icon: AiOutlineSave
+        events:
+          onClick:
+            - id: validate
+              type: Validate
+            - id: update_entry
+              type: Request
+              messages:
+                success: Updated! Thank you!⛽️
+              params: update_entry
+            - id: link_to_all
+              type: Link
+              params:
+                pageId: all-entries

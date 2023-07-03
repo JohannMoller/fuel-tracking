@@ -1,0 +1,60 @@
+id: all-entries
+type: PageHeaderMenu
+properties:
+  title: All Entries
+
+requests:
+  - id: fetch_all_entries
+    type: MongoDBAggregation
+    connectionId: fuel-log
+    properties:
+      pipeline:
+        - $match:
+            archived:
+              $ne: true
+        - $sort:
+            date: -1
+
+events:
+  onMount:
+    - id: fetch_all_entries
+      type: Request
+      params: fetch_all_entries
+    - id: set_list
+      type: SetState
+      params:
+        all_entries_list:
+          _request: fetch_all_entries
+blocks:
+  - id: box
+    type: Box
+    blocks:
+      - id: all_entries_list
+        type: List
+        layout:
+          contentGutter: 8
+        blocks:
+          - id: all_entries_list.$.card
+            type: Card
+            events:
+              onClick:
+                - id: link_to_edit
+                  type: Link
+                  params:
+                    pageId: edit-entry
+                    urlQuery:
+                      id:
+                        _state: all_entries_list.$._id
+            blocks:
+              - id: all_entries_list.$.content
+                type: Html
+                properties:
+                  html:
+                    _nunjucks:
+                      template: |
+                        <h3>{{ date | date('D MMM YYYY') }} {{ trip }} km @ {{ litres_per_100km }} L/100km</h3>
+                        Full: {{full_mileage}} km<br/>
+                        Tank: {{ litres }} L<br/>
+                        Price: R {{ (full_price or 0).toFixed(2) }} (@ R {{ (price_per_litre or 0).toFixed(2) }} / L)<br/>
+                      on:
+                        _state: all_entries_list.$

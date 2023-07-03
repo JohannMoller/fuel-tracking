@@ -1,5 +1,5 @@
 id: new-entry
-type: Box
+type: PageHeaderMenu
 properties:
   title: New Entry
 layout:
@@ -10,20 +10,23 @@ requests:
     type: MongoDBInsertOne
     connectionId: fuel-log
     payload:
-      new:
-        _state: new
+      entry:
+        _state: entry
     properties:
       doc:
-        _payload: new
+        _object.assign:
+          - _payload: entry
+          - created_timestamp:
+              _date: now
 
 events:
   onInit:
     - id: init_state
       type: SetState
       params:
-        new.date:
+        entry.date:
           _date: now
-        new.fuel_type: 'ULP 93'
+        entry.fuel_type: 'ULP 93'
 
 blocks:
   - id: card
@@ -36,82 +39,7 @@ blocks:
         properties:
           content: Log an Entry
           level: 2
-      - id: new.date
-        type: DateSelector
-        layout:
-          sm:
-            span: 12
-        properties:
-          title: Date
-          allowClear: false
-      - id: new.fuel_type
-        type: ButtonSelector
-        layout:
-          sm:
-            span: 12
-        properties:
-          title: Fuel type
-          options:
-            - ULP 93
-            - ULP 95
-      - id: new.trip
-        type: NumberInput
-        layout:
-          sm:
-            span: 12
-        required: true
-        properties:
-          title: Trip [km]
-          placeholder: km
-          min: 0
-      - id: new.full_mileage
-        type: NumberInput
-        layout:
-          sm:
-            span: 12
-        properties:
-          title: Total mileage [km]
-          placeholder: km
-          min: 0
-      - id: new.litres_per_100km
-        type: NumberInput
-        layout:
-          sm:
-            span: 12
-        properties:
-          title: Usage
-          placeholder: L/100km
-          min: 0
-      - id: new.price_per_litre
-        type: NumberInput
-        layout:
-          sm:
-            span: 12
-        required: true
-        properties:
-          title: Price [R/L]
-          placeholder: R/L
-          min: 0
-      - id: new.full_price
-        type: NumberInput
-        layout:
-          sm:
-            span: 12
-        required: true
-        properties:
-          title: Total price [R]
-          placeholder: R
-          min: 0
-      - id: new.litres
-        type: NumberInput
-        layout:
-          sm:
-            span: 12
-        required: true
-        properties:
-          title: Litres
-          placeholder: L
-          min: 0
+      - _ref: pages/new-entry/components/form_entry.yaml
 
       - id: save_button
         type: Button
@@ -128,7 +56,7 @@ blocks:
             - id: set_location
               type: SetState
               params:
-                new.location:
+                entry.location:
                   _actions: get_location.response.coords
             - id: validate
               type: Validate

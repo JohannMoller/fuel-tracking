@@ -19,5 +19,22 @@ connections:
 ###
 ###
 ###
+menus:
+  - id: default
+    links:
+      - id: new-entry
+        type: MenuLink
+        pageId: new-entry
+        properties:
+          title: New
+          icon: FaGasPump
+      - id: all-entries
+        type: MenuLink
+        pageId: all-entries
+        properties:
+          title: All
+          icon: AiOutlineUnorderedList
 pages:
   - _ref: pages/new-entry/new-entry.yaml
+  - _ref: pages/all-entries/all-entries.yaml
+  - _ref: pages/edit-entry/edit-entry.yaml
