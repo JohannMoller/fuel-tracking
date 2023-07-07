@@ -1,0 +1,162 @@
+id: reporting
+type: PageHeaderMenu
+properties:
+  title: Reporting
+layout:
+  contentGutter: 16
+requests:
+  - _ref: pages/reporting/requests/monthly_stats.yaml
+
+events:
+  onInit:
+    - id: fetch_stats
+      type: Request
+      params: monthly_stats
+    - id: set_stats_select
+      type: SetState
+      params:
+        stats_select_avg:
+          label: km
+          field: trip
+        stats_select_total:
+          label: km
+          field: trip
+
+blocks:
+  - id: monthly_avg_stats_card
+    type: Card
+    properties:
+      title: Monthly Averages
+    areas:
+      extra:
+        blocks:
+          - id: stats_select_avg
+            type: ButtonSelector
+            properties:
+              size: small
+              label:
+                disabled: true
+              options:
+                - label: L/100km
+                  value:
+                    label: L/100km
+                    field: litres_per_100km
+                - label: R/L
+                  value:
+                    label: R/L
+                    field: price_per_litre
+                - label: R
+                  value:
+                    label: R
+                    field: full_price
+                - label: L
+                  value:
+                    label: L
+                    field: litres
+                - label: km
+                  value:
+                    label: km
+                    field: trip
+    blocks:
+      - id: monthly_avg_stats_chart
+        type: EChart
+        properties:
+          option:
+            dataset:
+              source:
+                _request: monthly_stats
+            tooltip:
+              trigger: axis
+            legend:
+              bottom: 0
+              show: true
+            xAxis:
+              type: time
+              axisPointer:
+                type: line
+                snap: true
+            yAxis:
+              type: value
+            series:
+              - type: line
+                name:
+                  _state: stats_select_avg.label
+                emphasis:
+                  focus: 'series'
+                lineStyle:
+                  width: 1
+                encode:
+                  x: _id
+                  y:
+                    _string.concat:
+                      - avg_
+                      - _if_none:
+                          - _state: stats_select_avg.field
+                          - km
+
+  - id: monthly_total_stats_card
+    type: Card
+    properties:
+      title: Monthly Totals
+    areas:
+      extra:
+        blocks:
+          - id: stats_select_total
+            type: ButtonSelector
+            properties:
+              size: small
+              label:
+                disabled: true
+              options:
+                - label: '#'
+                  value:
+                    label: '#'
+                    field: count
+                - label: R
+                  value:
+                    label: R
+                    field: full_price
+                - label: L
+                  value:
+                    label: L
+                    field: litres
+                - label: km
+                  value:
+                    label: km
+                    field: trip
+    blocks:
+      - id: monthly_total_stats_chart
+        type: EChart
+        properties:
+          option:
+            dataset:
+              source:
+                _request: monthly_stats
+            tooltip:
+              trigger: axis
+            legend:
+              bottom: 0
+              show: true
+            xAxis:
+              type: time
+              axisPointer:
+                type: line
+                snap: true
+            yAxis:
+              type: value
+            series:
+              - type: line
+                name:
+                  _state: stats_select_total.label
+                emphasis:
+                  focus: 'series'
+                lineStyle:
+                  width: 1
+                encode:
+                  x: _id
+                  y:
+                    _string.concat:
+                      - total_
+                      - _if_none:
+                          - _state: stats_select_total.field
+                          - km

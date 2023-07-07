@@ -26,13 +26,13 @@ blocks:
     layout:
       sm:
         span: 12
-    required: true
     properties:
       title: Trip [km]
       placeholder: km
       min: 0
   - id: entry.full_mileage
     type: NumberInput
+    required: true
     layout:
       sm:
         span: 12
