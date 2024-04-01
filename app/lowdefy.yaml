@@ -1,5 +1,5 @@
-lowdefy: 4.0.0-rc.15
-name: Lowdefy starter
+lowdefy: 4.0.2
+name: Fuel tracking app
 
 connections:
   - id: fuel-log

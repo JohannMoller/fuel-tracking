@@ -159,6 +159,7 @@ blocks:
         type: Pagination
         style:
           textAlign: right
+          marginBottom: 40px
         properties:
           showTotal: false
           simple: true
