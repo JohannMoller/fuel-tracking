@@ -4,9 +4,15 @@ properties:
   title: All Entries
 
 requests:
+  - _ref: shared/log-entries/requests/selector_vehicles.yaml
   - id: fetch_all_entries
     type: MongoDBAggregation
     connectionId: fuel-log
+    payload:
+      filter:
+        _state: filter
+      pagination:
+        _state: pagination
     properties:
       pipeline:
         - $match:
@@ -14,12 +20,41 @@ requests:
               $ne: true
         - $sort:
             date: -1
+        - $skip:
+            _payload: pagination.skip
+        - $limit:
+            _payload: pagination.pageSize
+  - id: count_all_entries
+    type: MongoDBAggregation
+    connectionId: fuel-log
+    payload:
+      filter:
+        _state: filter
+    properties:
+      pipeline:
+        - $match:
+            archived:
+              $ne: true
+        - $project:
+            vehicle: 1
 
 events:
+  onInit:
+    - id: init_state
+      type: SetState
+      params:
+        pagination:
+          pageSize: 10
+          skip: 0
   onMount:
     - id: fetch_all_entries
       type: Request
-      params: fetch_all_entries
+      params:
+        - fetch_all_entries
+        - count_all_entries
+    - id: get_selector
+      type: Request
+      params: selector_vehicles
     - id: set_list
       type: SetState
       params:
@@ -29,6 +64,41 @@ blocks:
   - id: box
     type: Box
     blocks:
+      - id: filter.vehicles
+        type: CheckboxSelector
+        style:
+          textAlign: right
+        properties:
+          label:
+            disabled: true
+          options:
+            _request: selector_vehicles
+        events:
+          onChange:
+            - id: filter_list
+              type: SetState
+              params:
+                all_entries_list:
+                  _mql.aggregate:
+                    on:
+                      _request: fetch_all_entries
+                    pipeline:
+                      - $match:
+                          $expr:
+                            $cond:
+                              - $eq:
+                                  - $size:
+                                      $ifNull:
+                                        - _state: filter.vehicles
+                                        - []
+                                  - 0
+                              - true
+                              - $in:
+                                  - $vehicle.id
+                                  - _array.map:
+                                      - _state: filter.vehicles
+                                      - _function:
+                                          __args: 0.id
       - id: all_entries_list
         type: List
         layout:
@@ -46,15 +116,110 @@ blocks:
                       id:
                         _state: all_entries_list.$._id
             blocks:
-              - id: all_entries_list.$.content
+              - id: all_entries_list.$.title
                 type: Html
                 properties:
                   html:
                     _nunjucks:
                       template: |
                         <h3>{{ date | date('D MMM YYYY') }} {{ trip }} km @ {{ litres_per_100km }} L/100km</h3>
+                      on:
+                        _state: all_entries_list.$
+              - id: all_entries_list.$.content
+                type: Html
+                layout:
+                  sm:
+                    span: 20
+                properties:
+                  html:
+                    _nunjucks:
+                      template: |
                         Full: {{full_mileage}} km<br/>
                         Tank: {{ litres }} L<br/>
                         Price: R {{ (full_price or 0).toFixed(2) }} (@ R {{ (price_per_litre or 0).toFixed(2) }} / L)<br/>
                       on:
                         _state: all_entries_list.$
+              - id: all_entries_list.$.vehicle
+                type: Html
+                layout:
+                  sm:
+                    span: 4
+                style:
+                  textAlign: right
+                properties:
+                  html:
+                    _nunjucks:
+                      template: |
+                        <span style="border: 2px solid black; text-align: center; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+                          {{ name}}
+                        </span>
+                      on:
+                        _state: all_entries_list.$.vehicle
+      - id: pagination
+        type: Pagination
+        style:
+          textAlign: right
+        properties:
+          showTotal: false
+          simple: true
+          total:
+            _get:
+              from:
+                _mql.aggregate:
+                  on:
+                    _request: count_all_entries
+                  pipeline:
+                    - $match:
+                        $expr:
+                          $cond:
+                            - $eq:
+                                - $size:
+                                    $ifNull:
+                                      - _state: filter.vehicles
+                                      - []
+                                - 0
+                            - true
+                            - $in:
+                                - $vehicle.id
+                                - _array.map:
+                                    - _state: filter.vehicles
+                                    - _function:
+                                        __args: 0.id
+                    - $count: total
+              key: 0.total
+              default: 0
+        events:
+          onChange:
+            - id: clear_list
+              type: SetState
+              params:
+                all_entries_list: []
+            - id: fetch_all_entries_list
+              type: Request
+              params:
+                - count_all_entries
+                - fetch_all_entries
+            - id: set_list
+              type: SetState
+              params:
+                all_entries_list:
+                  _mql.aggregate:
+                    on:
+                      _request: fetch_all_entries
+                    pipeline:
+                      - $match:
+                          $expr:
+                            $cond:
+                              - $eq:
+                                  - $size:
+                                      $ifNull:
+                                        - _state: filter.vehicles
+                                        - []
+                                  - 0
+                              - true
+                              - $in:
+                                  - $vehicle.id
+                                  - _array.map:
+                                      - _state: filter.vehicles
+                                      - _function:
+                                          __args: 0.id
