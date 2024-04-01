@@ -1,0 +1,31 @@
+- id: default
+  links:
+    - id: new-entry
+      type: MenuLink
+      pageId: new-entry
+      properties:
+        title: New
+        icon: FaGasPump
+    - id: all-entries
+      type: MenuLink
+      pageId: all-entries
+      properties:
+        title: All
+        icon: AiOutlineUnorderedList
+    - id: reporting
+      type: MenuLink
+      pageId: reporting
+      properties:
+        title: Reports
+        icon: AiOutlineLineChart
+    - id: admin
+      type: MenuGroup
+      properties:
+        title: Admin
+        icon: AiOutlineTool
+      links:
+        - id: vehicles-admin
+          type: MenuLink
+          pageId: vehicles-admin
+          properties:
+            title: Vehicles

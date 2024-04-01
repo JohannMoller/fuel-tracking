@@ -1,4 +1,4 @@
-lowdefy: 4.0.0-rc.9
+lowdefy: 4.0.2
 name: Lowdefy starter
 
 connections:
@@ -27,29 +27,15 @@ connections:
 ###
 ###
 menus:
-  - id: default
-    links:
-      - id: new-entry
-        type: MenuLink
-        pageId: new-entry
-        properties:
-          title: New
-          icon: FaGasPump
-      - id: all-entries
-        type: MenuLink
-        pageId: all-entries
-        properties:
-          title: All
-          icon: AiOutlineUnorderedList
-      - id: reporting
-        type: MenuLink
-        pageId: reporting
-        properties:
-          title: Reports
-          icon: AiOutlineLineChart
+  _ref: menus.yaml
 pages:
+  ## log entries
   - _ref: pages/new-entry/new-entry.yaml
   - _ref: pages/all-entries/all-entries.yaml
   - _ref: pages/edit-entry/edit-entry.yaml
 
+  ## reporting
   - _ref: pages/reporting/reporting.yaml
+
+  ## admin
+  - _ref: pages/vehicles/vehicles-admin.yaml
