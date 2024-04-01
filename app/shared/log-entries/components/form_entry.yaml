@@ -3,6 +3,15 @@ type: Box
 layout:
   contentGutter: 8
 blocks:
+  - id: entry.vehicle
+    type: ButtonSelector
+    style:
+      textAlign: right
+    properties:
+      label:
+        disabled: true
+      options:
+        _request: selector_vehicles
   - id: entry.date
     type: DateSelector
     layout:

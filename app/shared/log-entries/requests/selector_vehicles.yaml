@@ -1,0 +1,16 @@
+id: selector_vehicles
+type: MongoDBAggregation
+connectionId: vehicles
+properties:
+  pipeline:
+    - $match:
+        disabled:
+          $ne: true
+    - $project:
+        _id: 0
+        label: $name
+        value:
+          id: $_id
+          name: $name
+    - $sort:
+        label: 1

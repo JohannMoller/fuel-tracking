@@ -1,0 +1,129 @@
+id: vehicles-admin
+type: PageHeaderMenu
+properties:
+  title: Vehicles
+
+requests:
+  - id: get_vehicles
+    type: MongoDBFind
+    connectionId: vehicles
+    properties:
+      query: {}
+  - id: update_vehicle
+    type: MongoDBUpdateOne
+    connectionId: vehicles
+    payload:
+      vehicle:
+        _state: selected
+    properties:
+      filter:
+        _id:
+          _payload: vehicle._id
+      update:
+        $set:
+          name:
+            _payload: vehicle.name
+          manufacturer:
+            _payload: vehicle.manufacturer
+          model:
+            _payload: vehicle.model
+          registration_number:
+            _payload: vehicle.registration_number
+          vin:
+            _payload: vehicle.vin
+          colour:
+            _payload: vehicle.colour
+          year:
+            _payload: vehicle.year
+          updated_timestamp:
+            _date: now
+
+events:
+  onMount:
+    - id: get_vehicles
+      type: Request
+      params: get_vehicles
+
+blocks:
+  - id: vehicles_table
+    type: AgGridMaterial
+    properties:
+      rowData:
+        _request: get_vehicles
+      defaultColDef:
+        filter: true
+        sortable: true
+      columnDefs:
+        - field: name
+        - field: registration_number
+    events:
+      onRowClick:
+        - id: set_selected
+          type: SetState
+          params:
+            selected:
+              _event: row
+        - id: toggle_drawer
+          type: CallMethod
+          params:
+            blockId: edit_drawer
+            method: toggleOpen
+  - id: edit_drawer
+    type: Drawer
+    layout:
+      contentGutter: 4
+    properties:
+      title:
+        _state: selected.name
+    blocks:
+      - id: selected.name
+        type: TextInput
+        required: true
+        properties:
+          title: Name
+      - id: selected.registration_number
+        type: TextInput
+        properties:
+          title: Registration Number
+      - id: selected.manufacturer
+        type: TextInput
+        properties:
+          title: Manufacturer
+      - id: selected.model
+        type: TextInput
+        properties:
+          title: Model
+      - id: selected.vin
+        type: TextInput
+        properties:
+          title: VIN
+      - id: selected.year
+        type: NumberInput
+        properties:
+          title: Year
+      - id: selected.colour
+        type: TextInput
+        properties:
+          title: Colour
+      - id: save
+        type: Button
+        properties:
+          title: Save
+          block: true
+        events:
+          onClick:
+            - id: update_vehicle
+              type: Request
+              params: update_vehicle
+            - id: refetch_table
+              type: Request
+              params: get_vehicles
+            - id: toggle_drawer
+              type: CallMethod
+              params:
+                blockId: edit_drawer
+                method: toggleOpen
+            - id: reset_selected
+              type: SetState
+              params:
+                selected: {}
