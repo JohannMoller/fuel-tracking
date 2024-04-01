@@ -3,6 +3,9 @@ type: MongoDBAggregation
 connectionId: fuel-log
 properties:
   pipeline:
+    - $match:
+        archived:
+          $ne: true
     - $group:
         _id:
           $dateFromParts:

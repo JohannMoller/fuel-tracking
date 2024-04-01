@@ -32,6 +32,21 @@ requests:
             - _payload: entry
             - updated_timestamp:
                 _date: now
+  - id: archive_entry
+    type: MongoDBUpdateOne
+    connectionId: fuel-log
+    payload:
+      entry:
+        _state: entry
+    properties:
+      filter:
+        _id:
+          _payload: entry._id
+      update:
+        $set:
+          archived: true
+          updated_timestamp:
+            _date: now
 
   - _ref: shared/log-entries/requests/selector_vehicles.yaml
 
@@ -65,7 +80,7 @@ blocks:
         type: Button
         layout:
           sm:
-            span: 12
+            span: 6
         properties:
           title: Back
           block: true
@@ -77,11 +92,33 @@ blocks:
               type: Link
               params:
                 back: true
+      - id: archive_button
+        type: Button
+        layout:
+          sm:
+            span: 9
+        properties:
+          title: Archive
+          block: true
+          icon: AiOutlineDelete
+          type: danger
+        events:
+          onClick:
+            - id: archive_entry
+              type: Request
+              messages:
+                success: Entry archived 🗑️
+              params: archive_entry
+            - id: link_to_all
+              type: Link
+              params:
+                pageId: all-entries
+
       - id: save_button
         type: Button
         layout:
           sm:
-            span: 12
+            span: 9
         properties:
           title: Update
           block: true
