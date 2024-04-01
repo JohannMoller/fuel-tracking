@@ -9,6 +9,13 @@ connections:
         _secret: MONGODB_URI
       collection: fuel-log
       write: true
+  - id: vehicles
+    type: MongoDBCollection
+    properties:
+      databaseUri:
+        _secret: MONGODB_URI
+      collection: vehicles
+      write: true
 
 ### Capture page with basic date, location, price, mileage, trip, total amount, fuel type (maybe vehicle selector?)
 ### Table with all captured data you can edit

@@ -3,6 +3,14 @@ type: Box
 layout:
   contentGutter: 8
 blocks:
+  - id: entry.vehicle
+    type: ButtonSelector
+    required: true
+    properties:
+      label:
+        disabled: true
+      options:
+        _request: selector_vehicles
   - id: entry.date
     type: DateSelector
     layout:

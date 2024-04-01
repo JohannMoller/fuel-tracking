@@ -33,17 +33,21 @@ requests:
             - updated_timestamp:
                 _date: now
 
+  - _ref: shared/log-entries/requests/selector_vehicles.yaml
+
 events:
   onMount:
     - id: get_entry
       type: Request
       params: get_entry
+    - id: get_selector
+      type: Request
+      params: selector_vehicles
     - id: set_entry
       type: SetState
       params:
         entry:
           _request: get_entry
-
 blocks:
   - id: card
     type: Card
@@ -55,7 +59,7 @@ blocks:
         properties:
           content: Log an Entry
           level: 2
-      - _ref: pages/new-entry/components/form_entry.yaml
+      - _ref: shared/log-entries/components/form_entry.yaml
 
       - id: back_button
         type: Button
