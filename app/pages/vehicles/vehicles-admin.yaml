@@ -31,6 +31,8 @@ requests:
             _payload: vehicle.registration_number
           vin:
             _payload: vehicle.vin
+          engine_number:
+            _payload: vehicle.engine_number
           colour:
             _payload: vehicle.colour
           year:
@@ -97,6 +99,10 @@ blocks:
         type: TextInput
         properties:
           title: VIN
+      - id: selected.engine_number
+        type: TextInput
+        properties:
+          title: Engin Number
       - id: selected.year
         type: NumberInput
         properties:
