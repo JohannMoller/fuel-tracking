@@ -1,6 +1,6 @@
 #!/bin/bash
 
-release_branch = "main"
+release_branch="main"
 search_phrase="changeset-release/$release_branch"
 # Retrieve the latest commit message
 commit_message=$(git log -1 --pretty=%B)
