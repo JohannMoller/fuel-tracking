@@ -1,5 +1,11 @@
 # @johannmoller/fuel-tracking-app
 
+## 0.1.2
+
+### Patch Changes
+
+- 496f766: Update search phrase for checking changeset release.
+
 ## 0.1.1
 
 ### Patch Changes
