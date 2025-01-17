@@ -1,5 +1,11 @@
 # @johannmoller/fuel-tracking-app
 
+## 0.1.4
+
+### Patch Changes
+
+- 46350d7: Add publish to workflow.
+
 ## 0.1.3
 
 ### Patch Changes
