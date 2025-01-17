@@ -9,7 +9,7 @@ if [[ "$VERCEL_GIT_COMMIT_REF" == "main"  ]] ; then
   search_phrase="update-version"
   # Retrieve the latest commit message
   commit_message=$(git log -1 --pretty=%B)
-  echo commit_message
+  echo $commit_message
 
   # Print commit message of last commit
   # Search for text 'Version Packages', and redirects errors to /dev/null (suppress errors when not matching text)
