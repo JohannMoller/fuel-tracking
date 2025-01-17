@@ -28,6 +28,7 @@ jobs:
         uses: changesets/action@v1
         with:
           version: pnpm release:version
+          publish: pnpm release:publish
           createGithubReleases: true
           commit: 'update-version'
           title: Update Version
