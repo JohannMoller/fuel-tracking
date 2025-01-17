@@ -1,0 +1,17 @@
+{
+  "name": "@johannmoller/fuel-tracking-app",
+  "version": "0.1.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "changeset": "pnpm changeset",
+    "ldf:b": "lowdefy build",
+    "ldf:d": "lowdefy dev --log-level=debug --no-open",
+    "ldf:s": "lowdefy start",
+    "ldf": "lowdefy dev --no-open"
+  },
+  "dependencies": {
+    "lowdefy": "4.0.2"
+  }
+}
