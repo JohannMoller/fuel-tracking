@@ -6,7 +6,7 @@ echo "VERCEL_GIT_COMMIT_REF: $VERCEL_GIT_COMMIT_REF"
   # Dont build main, we trigger it only with releases
 if [[ "$VERCEL_GIT_COMMIT_REF" == "main"  ]] ; then
   # Define the phrase to search for
-  search_phrase="update-version"
+  search_phrase="changeset-release/main"
   # Retrieve the latest commit message
   commit_message=$(git log -1 --pretty=%B)
   echo $commit_message
