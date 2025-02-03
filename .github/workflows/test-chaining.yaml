@@ -8,7 +8,7 @@ on:
 
 jobs:
   echo-message:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_commit.message == 'update-version'}}
     runs-on: ubuntu-latest
     steps:
       - name: Echo message
