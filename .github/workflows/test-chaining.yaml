@@ -8,8 +8,10 @@ on:
 
 jobs:
   echo-message:
-    if: ${{ github.event.workflow_run.conclusion == 'success' && contains(github.event.workflow_run.head_commit.message, 'update-version') }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' && contains(github.event.workflow_run.head_commit.message, 'update-version') }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo message
-        run: 'echo "Running head_commit message: ${{ github.event.workflow_run.head_commit.message }} head_branch: ${{ github.event.workflow_run.head_branch }}"'
+        run: |
+          echo "Running head_commit message: ${{ github.event.workflow_run.head_commit.message }} head_branch: ${{ github.event.workflow_run.head_branch }} commit contains phrase update-version: ${{ contains(github.event.workflow_run.head_commit.message, 'update-version') }}"
