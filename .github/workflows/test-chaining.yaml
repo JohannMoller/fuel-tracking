@@ -14,4 +14,4 @@ jobs:
     steps:
       - name: Echo message
         run: |
-          echo "Running head_commit message: ${{ github.event.workflow_run.head_commit.message }} head_branch: ${{ github.event.workflow_run.head_branch }} commit contains phrase update-version: ${{ contains(github.event.workflow_run.head_commit.message, 'update-version') }}"
+          echo "Running head_commit message: ${{ github.event.workflow_run.head_commit.message }} head_branch: ${{ github.event.workflow_run.head_branch }} commit contains phrase update-version: ${{ contains(github.event.workflow_run.head_commit.message, 'update-version') }} entire workflow_run: ${{ toJson(github.event.workflow_run) }}"
