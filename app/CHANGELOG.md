@@ -1,5 +1,12 @@
 # @johannmoller/fuel-tracking-app
 
+## 0.1.5
+
+### Patch Changes
+
+- 98055e5: Update workflow run to only trigger for changeset PR.
+- 99d40e7: Testing chaining workflows.
+
 ## 0.1.4
 
 ### Patch Changes
