@@ -12,5 +12,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo message
-        run: |
-          echo "Running head_commit message: ${{ github.event.workflow_run.head_commit.message }} head_branch: ${{ github.event.workflow_run.head_branch }}
+        run: 'echo "Running head_commit message: ${{ github.event.workflow_run.head_commit.message }} head_branch: ${{ github.event.workflow_run.head_branch }}"'
