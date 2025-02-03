@@ -1,5 +1,11 @@
 # @johannmoller/fuel-tracking-app
 
+## 0.2.1
+
+### Patch Changes
+
+- fd3264c: Test things to get the workflows working
+
 ## 0.2.0
 
 ### Minor Changes
