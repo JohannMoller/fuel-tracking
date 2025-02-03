@@ -1,11 +1,30 @@
 id: monthly_stats
 type: MongoDBAggregation
 connectionId: fuel-log
+payload:
+  filter:
+    _state: filter
 properties:
   pipeline:
     - $match:
         archived:
           $ne: true
+    - $match:
+        $expr:
+          $cond:
+            - $eq:
+                - $size:
+                    $ifNull:
+                      - _payload: filter.vehicles
+                      - []
+                - 0
+            - true
+            - $in:
+                - $vehicle.id
+                - _array.map:
+                    - _payload: filter.vehicles
+                    - _function:
+                        __args: 0.id
     - $group:
         _id:
           $dateFromParts:
@@ -36,15 +55,25 @@ properties:
           $avg: $full_price
     - $addFields:
         avg_litres_per_100km:
-          $multiply:
-            - $divide:
-                - $total_litres
+          $cond:
+            - $eq:
                 - $total_trip
-            - 100
+                - 0
+            - null
+            - $multiply:
+              - $divide:
+                  - $total_litres
+                  - $total_trip
+              - 100
 
         avg_price_per_litre:
-          $divide:
-            - $total_full_price
-            - $total_litres
+          $cond:
+            - $eq:
+                - $total_litres
+                - 0
+            - null
+            - $divide:
+              - $total_full_price
+              - $total_litres
     - $sort:
         _id: 1
