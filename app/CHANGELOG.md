@@ -1,5 +1,11 @@
 # @johannmoller/fuel-tracking-app
 
+## 0.2.0
+
+### Minor Changes
+
+- f560f90: Add vehicle selector to reporting page (and minor change is to hardcode vehicles in new-entry selector).
+
 ## 0.1.5
 
 ### Patch Changes
