@@ -6,6 +6,7 @@ layout:
   contentGutter: 16
 requests:
   - _ref: pages/reporting/requests/monthly_stats.yaml
+  - _ref: shared/log-entries/requests/selector_vehicles.yaml
 
 events:
   onInit:
@@ -21,8 +22,28 @@ events:
         stats_select_total:
           label: km
           field: trip
+  onMount:
+    - id: get_selector
+      type: Request
+      params: selector_vehicles
 
 blocks:
+  - id: filter.vehicles
+    type: CheckboxSelector
+    style:
+      textAlign: right
+    properties:
+      label:
+        disabled: true
+      options:
+        _request: selector_vehicles
+    events:
+      onChange:
+        - id: fetch_stats
+          type: Request
+          messages:
+            loading: Fetching stats...
+          params: monthly_stats
   - id: monthly_avg_stats_card
     type: Card
     properties:

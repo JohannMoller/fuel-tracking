@@ -19,8 +19,6 @@ requests:
           - created_timestamp:
               _date: now
 
-  - _ref: shared/log-entries/requests/selector_vehicles.yaml
-
 events:
   onInit:
     - id: init_state
@@ -29,10 +27,6 @@ events:
         entry.date:
           _date: now
         entry.fuel_type: 'ULP 93'
-  onMount:
-    - id: get_selector
-      type: Request
-      params: selector_vehicles
 
 blocks:
   - id: card

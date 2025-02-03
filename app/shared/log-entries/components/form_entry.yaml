@@ -11,7 +11,16 @@ blocks:
       label:
         disabled: true
       options:
-        _request: selector_vehicles
+        - label: Venue
+          value:
+            name: Venue
+            id:
+              _oid: 660a5df97534485ea1df3562
+        - label: X-Trail
+          value:
+            name: X-Trail
+            id:
+              _oid: 660a5e127534485ea1df3563
   - id: entry.date
     type: DateSelector
     layout:
