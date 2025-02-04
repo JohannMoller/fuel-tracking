@@ -1,5 +1,11 @@
 # @johannmoller/fuel-tracking-app
 
+## 0.2.2
+
+### Patch Changes
+
+- 3396bb4: Check to see what the head_branch is for changeset into main.
+
 ## 0.2.1
 
 ### Patch Changes
