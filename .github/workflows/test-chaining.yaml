@@ -12,7 +12,7 @@ on:
 
 jobs:
   echo-message: ## Check head_commit for changeset-release/main
-    if: ${{ github.event_name == 'release' ||  (github.event.workflow_run.conclusion == 'success' && contains(github.event.workflow_run.head_commit.message, 'changeset-release/main')) }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' ||  (github.event.workflow_run.conclusion == 'success' && contains(github.event.workflow_run.head_commit.message, 'changeset-release/main')) }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo message
