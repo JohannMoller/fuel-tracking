@@ -10,15 +10,15 @@ on:
       - published
 
 jobs:
-  echo-message: ## Check head_branch
-    # if: ${{ github.event.workflow_run.conclusion == 'success' && contains(github.event.workflow_run.head_commit.message, 'update-version') }}
+  echo-message: ## Check head_commit for changeset-release/main
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' && contains(github.event.workflow_run.head_commit.message, 'changeset-release/main') }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo message
         run: |
-          echo "Running head_commit message: ${{ github.event.workflow_run.head_commit.message }} head_branch: ${{ github.event.workflow_run.head_branch }} commit contains phrase update-version: ${{ contains(github.event.workflow_run.head_commit.message, 'update-version') }}"
+          echo "Running head_commit message: ${{ github.event.workflow_run.head_commit.message }} head_branch: ${{ github.event.workflow_run.head_branch }} commit contains phrase update-version: ${{ contains(github.event.workflow_run.head_commit.message, 'changeset-release/main') }} event_name: ${{ github.event_name}}"
 
-## Check services release for workflow_run head_branch
+## Check services release for workflow_run head_commit for changeset-release/main
 ## Add manual release trigger
 ## Pin changesets release versions for all packages
