@@ -1,5 +1,11 @@
 # @johannmoller/fuel-tracking-app
 
+## 0.2.3
+
+### Patch Changes
+
+- bb6e448: Update workflow file for more testing.
+
 ## 0.2.2
 
 ### Patch Changes
