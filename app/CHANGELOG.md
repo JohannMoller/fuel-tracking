@@ -1,5 +1,11 @@
 # @johannmoller/fuel-tracking-app
 
+## 0.2.6
+
+### Patch Changes
+
+- 6d5a692: See what is in github.ref and github.ref_name in the workflows.
+
 ## 0.2.5
 
 ### Patch Changes
