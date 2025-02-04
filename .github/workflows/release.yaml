@@ -28,9 +28,15 @@ jobs:
         uses: changesets/action@v1
         with:
           version: pnpm release:version
-          publish: pnpm release:publish
+          # publish: pnpm release:publish
           createGithubReleases: true
           commit: 'update-version'
           title: Update Version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Github Release
+        uses: softprops/action-gh-release@v2
+        if: ${{ github.head_ref == 'changeset-release/main' }}
+        with:
+          draft: true
