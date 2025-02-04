@@ -1,5 +1,11 @@
 # @johannmoller/fuel-tracking-app
 
+## 0.2.4
+
+### Patch Changes
+
+- aae303a: Cater for manual releases in workflow file.
+
 ## 0.2.3
 
 ### Patch Changes
