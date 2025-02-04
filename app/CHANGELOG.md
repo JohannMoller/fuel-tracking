@@ -1,5 +1,11 @@
 # @johannmoller/fuel-tracking-app
 
+## 0.2.7
+
+### Patch Changes
+
+- 7dcddfa: Release workflow fixes and try and fix all packages.
+
 ## 0.2.6
 
 ### Patch Changes
