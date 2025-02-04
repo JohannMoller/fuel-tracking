@@ -8,6 +8,7 @@ on:
   release: ## For manual releasing
     types:
       - published
+  workflow_dispatch:
 
 jobs:
   echo-message: ## Check head_commit for changeset-release/main
