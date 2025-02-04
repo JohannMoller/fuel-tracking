@@ -1,5 +1,11 @@
 # @johannmoller/fuel-tracking-app
 
+## 0.2.5
+
+### Patch Changes
+
+- 11f5c00: Do release with separate action step.
+
 ## 0.2.4
 
 ### Patch Changes
