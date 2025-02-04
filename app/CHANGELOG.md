@@ -1,5 +1,11 @@
 # @johannmoller/fuel-tracking-app
 
+## 0.2.8
+
+### Patch Changes
+
+- e335e24: Display changesets output.
+
 ## 0.2.7
 
 ### Patch Changes
